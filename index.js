@@ -23,16 +23,15 @@ app.use(async ({ payload, next }) => {
   await next();
 });
 
-app.command(cmd("ping"), async ({ ack, respond }) => {
+app.command(cmd("ping"), async ({ ack }) => {
   const start = Date.now();
-  await ack();
   const latency = Date.now() - start;
-  await respond({ text: `Pong!\nLatency: ${latency}ms` });
+  await ack({ response_type: "ephemeral", text: `Pong!\nLatency: ${latency}ms` });
 });
 
-app.command(cmd("help"), async ({ ack, respond }) => {
-  await ack();
-  await respond({
+app.command(cmd("help"), async ({ ack }) => {
+  await ack({
+    response_type: "ephemeral",
     text: `Available Commands:
 ${cmd("ping")} - Check bot latency
 ${cmd("help")} - Show this help message
@@ -41,27 +40,24 @@ ${cmd("joke")} - Get a random joke`
   });
 });
 
-app.command(cmd("catfact"), async ({ ack, respond }) => {
-  await ack();
-
+app.command(cmd("catfact"), async ({ ack }) => {
   try {
-    const response = await axios.get("https://catfact.ninja/fact");
-    await respond({ text: `Cat Fact:\n${response.data.fact}` });
+    const response = await axios.get("https://catfact.ninja/fact", { timeout: 2500 });
+    await ack({ response_type: "ephemeral", text: `Cat Fact:\n${response.data.fact}` });
   } catch (err) {
-    await respond({ text: "Failed to fetch a cat fact." });
+    await ack({ response_type: "ephemeral", text: "Failed to fetch a cat fact." });
   }
 });
 
-app.command(cmd("joke"), async ({ ack, respond }) => {
-  await ack();
-
+app.command(cmd("joke"), async ({ ack }) => {
   try {
-    const response = await axios.get("https://official-joke-api.appspot.com/random_joke");
-    await respond({
+    const response = await axios.get("https://official-joke-api.appspot.com/random_joke", { timeout: 2500 });
+    await ack({
+      response_type: "ephemeral",
       text: `${response.data.setup}\n\n${response.data.punchline}`
     });
   } catch (err) {
-    await respond({ text: "Failed to fetch a joke." });
+    await ack({ response_type: "ephemeral", text: "Failed to fetch a joke." });
   }
 });
 
