@@ -6,10 +6,10 @@ A Slack bot built with [@slack/bolt](https://slack.dev/bolt-js/) and Socket Mode
 
 | Command | Description |
 |---|---|
-| `/dsb-ping` | Check bot latency |
-| `/dsb-help` | List available commands |
-| `/dsb-catfact` | Get a random cat fact |
-| `/dsb-joke` | Get a random joke |
+| `/dsb-ping-akhil` | Check bot latency |
+| `/dsb-help-akhil` | List available commands |
+| `/dsb-catfact-akhil` | Get a random cat fact |
+| `/dsb-joke-akhil` | Get a random joke |
 
 ## Setup
 
